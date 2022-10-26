@@ -5,16 +5,14 @@ namespace vloop\tree\closure;
 interface IClosurePlantation
 {
     /**
-     * @param string $id
-     * @param string $parentId
      * @return $this
      */
-    public function addElement(string $elementID, string $parentElementID): self;
+    public function diffTries(): self;
 
     /**
      * @return NodeStruct[]
      */
-    public function nodes(): array;
+    public function hashPaths(): array;
 
     /**
      * @return IClosureTree[]
