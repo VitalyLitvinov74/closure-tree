@@ -2,95 +2,43 @@
 
 namespace vloop\tree\closure;
 
-use vloop\tree\closure\exceptions\NotSearchedNode;
-use vloop\tree\closure\validation\IValidator;
-use yii\debug\models\timeline\Search;
-
 class ClosureTree implements IClosureTree
 {
-    private $handleThrow;
-    private $nodes;
-
     /**
-     * @param NodeStruct[] $existedNodes
-     * @param bool $handleThrow
+     * @var TreePathStruct[]
      */
-    public function __construct(array $existedNodes = [], bool $handleThrow = false)
-    {
-        $this->nodes = $existedNodes;
-        $this->handleThrow = $handleThrow;
+    private $paths;
 
+    public static function bySeed(string $idSeed): self
+    {
+        return new self([
+            new TreePathStruct($idSeed, 0, 0)
+        ]);
     }
 
     /**
-     * @param IClosureTree $anotherTree - another tree for relation
-     * @param string $viaParentElement - element in current tree to which need connect another tree
-     * @return IClosureTree - new Closure tree
+     * @param TreePathStruct[] $paths
      */
-    public function mergeWith(IClosureTree $anotherTree, string $viaParentElement): IClosureTree
+    public function __construct(array $paths = [])
     {
-        $childRoot = $this->searchRootId($anotherTree);
-        $newNodesList = array_merge(
-            [new NodeStruct($childRoot, $viaParentElement, 1)],
-            $anotherTree->hashPath(),
-            $this->hashPath()
-        );
-        $parentRoots = $this->searchRootsNodes($this, $viaParentElement);
-        foreach ($parentRoots as $node) {
-            foreach ($anotherTree->hashPath() as $childNode) {
-                $newNodesList[] = new NodeStruct(
-                    $childNode->id(),
-                    $node->id(),
-                    $node->level() + $childNode + 1
-                );
-            }
-        }
-        return new self($newNodesList);
+        $this->paths = $paths;
     }
 
-    public function maxLevel(): int
+    public function mergeWithTree(IClosureTree $tree, string $parentNodeName)
     {
-        $max = 0;
-        foreach ($this->nodes as $node) {
-            if ($node->level() > $max) {
-                $max = $node->level();
-            }
-        }
-        return $max;
+        // TODO: Implement mergeWithTree() method.
     }
 
     /**
-     * @return NodeStruct[]
+     * @return TreePathStruct[]
      */
-    public function hashPath(): array
+    public function tree(): array
     {
-        return $this->nodes;
+        // TODO: Implement tree() method.
     }
 
-    private function searchRootId(IClosureTree $tree): string
+    public function addNode(string $nodeName, string $parentNodeName): IClosureTree
     {
-        $nodeWithMaxLevel = $tree->hashPath()[0];
-        foreach ($tree->hashPath() as $node){
-            if($node->level() > $nodeWithMaxLevel->level()){
-                $nodeWithMaxLevel = $node;
-            }
-        }
-        return $nodeWithMaxLevel->id();
-    }
-
-    /**
-     * @param IClosureTree $tree
-     * @param string $elementId
-     * @return NodeStruct[]
-     */
-    private function searchRootsNodes(IClosureTree $tree, string $elementId): array
-    {
-        $needleNodes = [];
-        foreach ($tree->hashPath() as $node){
-            if($node->id() == $elementId){
-                $needleNodes[] = $node;
-            }
-        }
-        return $needleNodes;
+        // TODO: Implement addNode() method.
     }
 }

@@ -4,17 +4,12 @@ namespace vloop\tree\closure;
 
 interface IClosureTree
 {
-    /**
-     * @param IClosureTree $anotherTree - another tree for relation
-     * @param string $viaParentElement - element in current tree to which need connect another tree
-     * @return IClosureTree - new Closure tree
-     */
-    public function mergeWith(IClosureTree $anotherTree, string $viaParentElement): IClosureTree;
-
-    public function maxLevel(): int;
+    public function mergeWithTree(IClosureTree $tree, string $parentNodeName);
 
     /**
-     * @return NodeStruct[]
+     * @return TreePathStruct[]
      */
-    public function hashPath(): array;
+    public function tree(): array;
+
+    public function addNode(string $nodeName, string $parentNodeName): self;
 }

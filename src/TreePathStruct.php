@@ -4,7 +4,7 @@ namespace vloop\tree\closure;
 
 use vloop\tree\closure\IRowStruct;
 
-class NodeStruct
+class TreePathStruct
 {
     private $parentId;
     private $id;
